@@ -134,6 +134,10 @@ void BuffDatabase::SetDisplayLocale(std::string_view locale)
         {
             texts.descriptionLines = SplitLines(StringUtils::NarrowToWide(buff.description.Get(locale)));
         }
+        if (!buff.valueLabels.IsEmpty())
+        {
+            texts.valueLabelLines = SplitLines(StringUtils::NarrowToWide(buff.valueLabels.Get(locale)));
+        }
         m_texts.push_back(std::move(texts));
     }
 }

@@ -18,6 +18,9 @@ struct BuffDisplayTexts
     std::wstring name;
     // The description's lines; none for a buff without one.
     std::vector<std::wstring> descriptionLines;
+    // The live-value labels' lines, in the order the server sends the values; none for a buff
+    // without live values.
+    std::vector<std::wstring> valueLabelLines;
 };
 
 // The buffs in memory (Data/Buffs/Buffs.json, buffs design B1), looked up by the number the server sends.

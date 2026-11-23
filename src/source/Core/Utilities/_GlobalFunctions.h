@@ -81,6 +81,10 @@ BuffStateValueControl& TheBuffStateValueControl();
 #define g_BuffToolTipString( outstr, type ) \
 	TheBuffStateValueControl().GetBuffInfoString( outstr, type )
 
+// The tooltip's live-value lines of a buff (C1 F3 09): empty when the server sent no values.
+#define g_BuffValueLines( outstr, type ) \
+	TheBuffStateValueControl().GetBuffValueLines( outstr, type )
+
 #define g_BuffStateValueString( outstr, type ) \
 	TheBuffStateValueControl().GetBuffValueString( outstr, type )
 

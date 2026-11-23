@@ -4017,6 +4017,51 @@
       }
     },
     {
+      "number": 109,
+      "name": "guildBuff",
+      "kind": "buff",
+      "group": 97,
+      "displayName": {
+        "en": "Guild Buff"
+      },
+      "description": {
+        "en": "Defense, Damage, Wizardry and Experience +0.3% per 100 Guild Power.\nExcellent Damage +30 and Maximum Life +300 per 100 Guild Power.\nMultiplied by guild rank: Guild Master 100%, Assistant 80%, Battle Master 60%, Member 40%."
+      },
+      "valueLabels": {
+        "en": "Guild Power: {0}\nDefense: +{0:%}%\nDamage: +{0:%}%\nWizardry damage: +{0:%}%\nExcellent damage: +{0}\nMaximum life: +{0}\nExperience: +{0:%}%"
+      }
+    },
+    {
+      "number": 110,
+      "name": "setBonus",
+      "kind": "buff",
+      "group": 98,
+      "displayName": {
+        "en": "Set Bonus"
+      },
+      "description": {
+        "en": "Increases Damage, Defense and Wizardry, Critical Damage and Maximum Life based on your Set Bonus points.\nDamage, Defense, Wizardry +3% per 100 points; Critical Damage +75 per 100 points.\nMaximum Life: x1 up to 300 points, x3 up to 500, x5 up to 700, x7 up to 900, x9 up to 1000, x15 above 1000."
+      },
+      "valueLabels": {
+        "en": "Set Bonus points: {0}\nDefense: +{0:%}%\nDamage: +{0:%}%\nWizardry damage: +{0:%}%\nCritical damage: +{0}\nMaximum life: +{0}"
+      }
+    },
+    {
+      "number": 111,
+      "name": "vipBuff",
+      "kind": "buff",
+      "group": 99,
+      "displayName": {
+        "en": "VIP Buff"
+      },
+      "description": {
+        "en": "Defense +10%, Damage +10%, Wizardry +10%.\nExcellent Damage +300, Critical Damage +300, Experience +25%."
+      },
+      "valueLabels": {
+        "en": "Defense: +{0:%}%\nDamage: +{0:%}%\nWizardry damage: +{0:%}%\nExcellent damage: +{0}\nCritical damage: +{0}\nExperience: +{0:%}%"
+      }
+    },
+    {
       "number": 112,
       "name": "partyExpBonusItem",
       "kind": "buff",
@@ -4500,6 +4545,21 @@
           }
         }
       ]
+    },
+    {
+      "number": 122,
+      "name": "powerBuff",
+      "kind": "buff",
+      "group": 100,
+      "displayName": {
+        "en": "Power Buff"
+      },
+      "description": {
+        "en": "Each point: Damage, Defense and Wizardry +0.15%, Maximum Life +25, Critical Damage +3, Excellent Damage +3.\nPoints come from achievements and bought Power Buff levels (maximum 400 points)."
+      },
+      "valueLabels": {
+        "en": "Buff points: {0}\nDamage and Defense: +{0:%}%\nWizardry damage: +{0:%}%\nMaximum life: +{0}\nExcellent damage: +{0}\nCritical damage: +{0}"
+      }
     },
     {
       "number": 129,

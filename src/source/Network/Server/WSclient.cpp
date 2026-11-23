@@ -13325,6 +13325,47 @@ void ReceiveDarkside(const BYTE* ReceiveBuffer)
     }
 }
 
+// Bless buff values (C1 F3 09): the live numbers of one buff for its tooltip. A packet from an old
+// server never arrives, and a malformed one is dropped; either way the tooltip keeps its static
+// description and never shows a half-read value.
+void ReceiveBlessBuffValues(std::span<const BYTE> packet)
+{
+    constexpr size_t kFixedSize = 6; // C1 header (3) + subcode + buff + count
+    constexpr size_t kMaxValues = 16; // the most values any buff has is 7; anything more is not ours
+    if (packet.size() < kFixedSize)
+    {
+        g_ConsoleDebug->Write(MCD_ERROR, L"[ReceiveBlessBuffValues] dropped -- %u bytes, expected at least %u",
+                              static_cast<unsigned>(packet.size()), static_cast<unsigned>(kFixedSize));
+        return;
+    }
+    auto Data = (LPPMSG_BLESS_BUFF_VALUES)packet.data();
+    const size_t count = Data->ValueCount;
+    if (count > kMaxValues || packet.size() != kFixedSize + count * sizeof(INT))
+    {
+        g_ConsoleDebug->Write(MCD_ERROR, L"[ReceiveBlessBuffValues] dropped -- buff %u, %u values, %u bytes",
+                              static_cast<unsigned>(Data->Buff), static_cast<unsigned>(count),
+                              static_cast<unsigned>(packet.size()));
+        return;
+    }
+    const auto buff = static_cast<eBuffState>(Data->Buff);
+    if (buff <= eBuffNone || buff >= eBuff_Count)
+    {
+        return;
+    }
+    if (count == 0)
+    {
+        TheBuffStateValueControl().ClearServerValues(buff);
+        return;
+    }
+    std::vector<int> values;
+    values.reserve(count);
+    for (size_t i = 0; i < count; ++i)
+    {
+        values.push_back(Data->Values[i]);
+    }
+    TheBuffStateValueControl().SetServerValues(buff, values);
+}
+
 static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
 {
     auto received_span = std::span<const BYTE>(ReceiveBuffer, Size);
@@ -13521,6 +13562,9 @@ static void ProcessPacket(const BYTE* ReceiveBuffer, int32_t Size)
             break;
         case 0x08:
             ReceivePK(ReceiveBuffer);
+            break;
+        case SUBCODE_BLESS_BUFF_VALUES: // receive Bless buff values
+            ReceiveBlessBuffValues(received_span);
             break;
         case 0x11:
             ReceiveMagicList(ReceiveBuffer);
@@ -15807,6 +15851,13 @@ void UnRegisterBuff(eBuffState buff, OBJECT* o)
     if (CheckExceptionBuff(buff, o, true))
     {
         g_CharacterUnRegisterBuff(o, buff);
+
+        if (o == &Hero->Object)
+        {
+            // The tooltip's live numbers belong to the hero's buff; drop them with it, so a later
+            // character never shows the previous one's numbers.
+            TheBuffStateValueControl().ClearServerValues(buff);
+        }
 
         if (buffclasstype != eBuffClass_Count)
         {

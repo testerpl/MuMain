@@ -34,6 +34,7 @@ The design and the steps still to come are in
 | `group` | Buffs of one group are the same kind of effect. The cash shop asks before an item replaces an active buff of its group. Buffs of one group share one countdown: a second buff of the group shows no time left, and the end of either ends the countdown. |
 | `displayName` | The name in the tooltip, in every language the game has; a language without one shows the English. |
 | `description` | The tooltip lines under the name, separated by `\n`; left out for none. |
+| `valueLabels` | The labels for the live values the server sends for this buff (see below), one per value, separated by `\n`; left out for a buff with no live values. `{0}` is the value, `{0:%}` the value as hundredths of a percent. |
 | `item` | The item that gives the buff (`group`, `number`); left out for none. The item's tooltip shows the buff's values and duration (see [Values](#values)). Moving the item in the item tools does not move this link yet (the Buffs tool will); the buff then names a missing item, an error. |
 | `duration` | How long the buff lasts in seconds, in the [value format of the item options](item-data.md#item-options) (`{"values": 1800}`, without `per` terms), when the server sends no time; left out when only the server knows it. Only an item buff's countdown uses it. |
 | `powerUps` | What the buff raises, in their order: each an `attribute` and its value in the item options' format under `add`. `addFinal` and `percent` are read, but the client adds every value as `add` (a warning). See [Values](#values). |
@@ -201,6 +202,35 @@ data (SK1) takes it over later.
 - **Not yet.** Soul Barrier's extra mana toll per level of its strengthener is
   OpenMU code (`SoulBarrierStrengSkillAction.cs`), not data, and the tooltip
   leaves it out.
+
+## Live values in the tooltip (Bless buffs)
+
+Four buffs get their live numbers on the tooltip, in green under the static
+description: Guild Buff (109), Set Bonus (110), VIP Buff (111) and Power Buff
+(122). The server sends them in a new packet, `C1 F3 09`, one packet per buff,
+when the buff arrives and whenever its values change:
+
+```
+C1 <size> F3 09 <buff> <count> <value...>
+```
+
+`buff` is the effect number; `count` is how many little-endian int32 values
+follow (0 clears the stored values). The values are in the order of the
+buff's `valueLabels`, and **percent values are hundredths of a percent**
+(7500 = 75%, 75 = 0.75%); plain values are sent as-is. The value orders are:
+
+| Buff | Values (in order) |
+|---|---|
+| Guild Buff (109) | Guild Power, Defense %, Damage %, Wizardry %, Excellent Damage, Maximum Life, Experience % |
+| Set Bonus (110) | Set Bonus points, Defense %, Damage %, Wizardry %, Critical Damage, Maximum Life |
+| VIP Buff (111) | Defense %, Damage %, Wizardry %, Excellent Damage, Critical Damage, Experience % |
+| Power Buff (122) | Buff points, Damage and Defense %, Wizardry %, Maximum Life, Excellent Damage, Critical Damage |
+
+A label with no matching value is not shown, and a value with no label is
+ignored, so a server that sends fewer values (or none, as an old server does)
+never breaks the tooltip: it shows exactly what it showed before, the static
+description. The stored values die with the buff, so a later character never
+sees the previous one's numbers.
 
 ## Compared with the original client
 

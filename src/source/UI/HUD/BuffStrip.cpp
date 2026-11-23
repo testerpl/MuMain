@@ -98,6 +98,18 @@ std::vector<UI::RmlBridge::Tooltip::Line> BuildTooltip(eBuffState buff)
         lines.push_back(std::move(line));
     }
 
+    // The live numbers the server sent for this buff (C1 F3 09), in green so they stand out from
+    // the static description; nothing extra when the server sent none.
+    std::list<std::wstring> valueLines;
+    g_BuffValueLines(valueLines, buff);
+    for (const std::wstring& text : valueLines)
+    {
+        UI::RmlBridge::Tooltip::Line line;
+        line.text = StringUtils::WideToNarrow(text.c_str());
+        line.color = LineColor::Green;
+        lines.push_back(std::move(line));
+    }
+
     std::wstring bufftime;
     g_BuffStringTime(buff, bufftime);
     if (!bufftime.empty())

@@ -92,6 +92,10 @@ struct BuffDefinition
     LocalizedString displayName;
     // Its tooltip lines, separated by '\n'; empty for none.
     LocalizedString description;
+    // The labels for the live values the server sends for this buff (C1 F3 09), one per value, in the
+    // order the server sends them; "{0}" is the value, "{0:%}" the value as hundredths of a percent.
+    // Empty for a buff with no live values: its tooltip is the static description only.
+    LocalizedString valueLabels;
     std::optional<BuffItemLink> item;
     BuffValuesFrom valuesFrom = BuffValuesFrom::Owner;
     // How long the buff lasts, in seconds, when the server sends no time; none when only the server knows it (an item

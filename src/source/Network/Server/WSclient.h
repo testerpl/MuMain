@@ -248,6 +248,27 @@ typedef struct
     BYTE		BuffIndex;
 } PMSG_VIEWSKILLSTATE, * LPPMSG_VIEWSKILLSTATE;
 
+// The subcode of the Bless buff values packet (0xF3): the live values of one buff for its tooltip.
+constexpr BYTE SUBCODE_BLESS_BUFF_VALUES = 0x09;
+
+#pragma pack(push, 1)
+// Bless buff values (C1 F3 09), one packet per buff, sent by the server when the buff arrives and
+// whenever its values change; an old server never sends it and the tooltip stays as it was.
+//   C1 <size> F3 09 <buff> <count> <value...>
+//   buff: the effect number (109 Guild, 110 Set, 111 VIP, 122 Power).
+//   count: how many int32 values follow (0 clears the stored values).
+//   values: little-endian int32, in the order of the buff's "valueLabels" in Data/Buffs/Buffs.json;
+//   percent values are hundredths of a percent (7500 = 75%, 75 = 0.75%).
+typedef struct
+{
+    PBMSG_HEADER Header;
+    BYTE SubCode;
+    BYTE Buff;
+    BYTE ValueCount;
+    INT Values[1];
+} PMSG_BLESS_BUFF_VALUES, * LPPMSG_BLESS_BUFF_VALUES;
+#pragma pack(pop)
+
 //receive default(word)
 typedef struct {
     PWMSG_HEADER Header;

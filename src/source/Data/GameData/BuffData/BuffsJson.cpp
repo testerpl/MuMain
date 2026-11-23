@@ -33,6 +33,7 @@ constexpr const char* Kind = "kind";
 constexpr const char* Group = "group";
 constexpr const char* DisplayName = "displayName";
 constexpr const char* Description = "description";
+constexpr const char* ValueLabels = "valueLabels";
 constexpr const char* Item = "item";
 constexpr const char* Duration = "duration";
 constexpr const char* PowerUps = "powerUps";
@@ -60,10 +61,10 @@ constexpr int MaxDurationSeconds = 365 * 24 * 60 * 60;
 // A buff's group is a byte, as in the old BuffEffect files.
 constexpr int MaxBuffGroup = 255;
 
-const Items::Json::KeySet EntryKeys{Keys::Number,      Keys::Name,        Keys::Kind,   Keys::Group,
-                                    Keys::DisplayName, Keys::Description, Keys::Item,   Keys::ValuesFrom,
-                                    Keys::Duration,    Keys::PowerUps,    Keys::Family, Keys::Tier,
-                                    Keys::Hidden,      Keys::CancelSkill};
+const Items::Json::KeySet EntryKeys{Keys::Number,      Keys::Name,        Keys::Kind,        Keys::Group,
+                                    Keys::DisplayName, Keys::Description, Keys::ValueLabels, Keys::Item,
+                                    Keys::ValuesFrom,  Keys::Duration,    Keys::PowerUps,    Keys::Family,
+                                    Keys::Tier,        Keys::Hidden,      Keys::CancelSkill};
 const Items::Json::KeySet ItemKeys{Keys::Group, Keys::Number};
 const Items::Json::KeySet PowerUpKeys{Keys::Attribute,
                                       Items::ItemOptionAddKeys[0],
@@ -104,7 +105,8 @@ public:
         return ReadWhole(json, Keys::Number, 1, MaxBuffNumber, buff.number) && ReadName(json, buff.name) &&
                ReadKind(json, buff.kind) && ReadWhole(json, Keys::Group, 0, MaxBuffGroup, buff.group) &&
                ReadText(json, Keys::DisplayName, true, buff.displayName) &&
-               ReadText(json, Keys::Description, false, buff.description) && ReadItem(json, buff.item) &&
+               ReadText(json, Keys::Description, false, buff.description) &&
+               ReadText(json, Keys::ValueLabels, false, buff.valueLabels) && ReadItem(json, buff.item) &&
                ReadValuesFrom(json, buff.valuesFrom) && ReadDuration(json, buff.valuesFrom, buff.duration) &&
                ReadPowerUps(json, buff.valuesFrom, buff.powerUps) && ReadFamily(json, buff) &&
                ReadHidden(json, buff.hidden) && ReadCancelSkill(json, buff.cancelSkill) &&
@@ -565,6 +567,10 @@ OrderedJson WriteEntry(const BuffDefinition& buff)
     if (!buff.description.IsEmpty())
     {
         json[Keys::Description] = Items::Json::WriteLocalizedString(buff.description);
+    }
+    if (!buff.valueLabels.IsEmpty())
+    {
+        json[Keys::ValueLabels] = Items::Json::WriteLocalizedString(buff.valueLabels);
     }
     if (buff.item)
     {
