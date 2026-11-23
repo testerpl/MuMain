@@ -290,11 +290,14 @@ check(DATA_WORKFLOW.exists(), "Dedicated data-assets workflow must exist")
 jobs_block_match = re.search(r"(?ms)^jobs:\n(.*)$", ci)
 jobs_block = jobs_block_match.group(1) if jobs_block_match else ""
 job_names = re.findall(r"(?m)^  ([\w-]+):\n", jobs_block)
+# The fork adds one job after the upstream seven: publish-bless-client hands the
+# Windows build on as a release asset, because upstream's release flow never runs here.
 check(
     job_names
-    == ["quality", "build-windows", "build-linux", "build-macos", "caches", "required", "release"],
+    == ["quality", "build-windows", "build-linux", "build-macos", "caches", "required", "release",
+        "publish-bless-client"],
     "CI jobs must be quality, build-windows, build-linux, build-macos, caches, required, "
-    f"release; found {job_names}",
+    f"release, publish-bless-client; found {job_names}",
 )
 check("paths-ignore:" not in ci, "Required CI must report checks even for docs/data-only PRs")
 for required in ("branches: [main]", "ready_for_review", "schedule:", "workflow_dispatch:"):
