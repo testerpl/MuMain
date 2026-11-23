@@ -368,7 +368,7 @@ TEST_CASE("Buffs: an unknown field is a warning, and the entry is kept [data][bu
         Read(File(R"({ "number": 1, "name": "a", "kind": "buff", "group": 1, "displayName": "A",)"
                   R"( "duration": {"levelType": "itemLevel", "values": 60} })"));
     CHECK(HasIssueAbout(byItemLevel.issues, ItemDataIssueSeverity::Warning, "buffs[0].duration.levelType",
-                        "does nothing"));
+                        "unknown field"));
 }
 
 TEST_CASE("Buffs: the shipped file loads without problems and is written as the writer writes it [data][buffs]")
@@ -378,7 +378,7 @@ TEST_CASE("Buffs: the shipped file loads without problems and is written as the 
 
     INFO(Messages(loaded.issues));
     CHECK(loaded.issues.empty());
-    CHECK(loaded.buffs.size() == 158);
+    CHECK(loaded.buffs.size() == 162);
     std::string text = TestFiles::ReadWholeFile(file);
     std::erase(text, '\r');
     CHECK(text == Data::Buffs::WriteBuffsJson(loaded.buffs));
