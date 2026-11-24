@@ -78,16 +78,16 @@ namespace
         float viewFarMult;  // multiplier on m_Config.farPlane
     };
     constexpr ZoomLevel PLAYER_ZOOM_LADDER[] = {
-        { 1000.f, 1.00f },  // 0
-        { 1100.f, 1.00f },  // 1
-        { 1200.f, 1.00f },  // 2
-        { 1300.f, 1.00f },  // 3 — default (F11 reset target)
-        { 1400.f, 1.04f },  // 4
-        { 1500.f, 1.08f },  // 5
-        { 1600.f, 1.23f },  // 6
-        { 1700.f, 1.33f },  // 7
-        { 1800.f, 1.44f },  // 8
-        { 1900.f, 1.56f },  // 9
+        {1000.f, 1.00f}, // 0
+        {1100.f, 1.00f}, // 1
+        {1200.f, 1.00f}, // 2
+        {1300.f, 1.00f}, // 3 — default (F11 reset target)
+        {1400.f, 1.04f}, // 4
+        {1500.f, 1.08f}, // 5
+        {1600.f, 1.23f}, // 6
+        {1700.f, 1.33f}, // 7
+        {1800.f, 1.44f}, // 8
+        {1900.f, 1.56f}, // 9
     };
     constexpr int PLAYER_ZOOM_LEVEL_DEFAULT = 3;
     constexpr int PLAYER_ZOOM_LEVEL_COUNT   = static_cast<int>(std::size(PLAYER_ZOOM_LADDER));
