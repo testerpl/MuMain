@@ -4512,7 +4512,7 @@ enum EMonsterModelType : int
     MONSTER_MODEL_ANCIENT_LORD_A = 247,
     MONSTER_MODEL_WITCH_DOCTOR = 248,
     MONSTER_MODEL_SIREN = 249,
-    MONSTER_MODEL_COUNT,            // keep last: number of monster models
+    MONSTER_MODEL_COUNT, // keep last: number of monster models
 };
 
 enum EMonsterType : int
