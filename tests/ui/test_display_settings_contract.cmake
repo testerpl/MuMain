@@ -164,9 +164,9 @@ require_text(winmain_source
 require_text(config_constants "CfgDefaultEnhancedMovement = false;"
     "GameConfigConstants.h must turn Enhanced Movement off by default")
 
-# A missing or invalid Look counts as CfgDefaultLook, which is Classic: Enhanced is opt-in.
-require_text(config_constants "CfgDefaultLook[] = L\"Classic\""
-    "GameConfigConstants.h must default the look preset to Classic")
+# Bless defaults to Enhanced: a missing or invalid Look counts as CfgDefaultLook, which is Enhanced.
+require_text(config_constants "CfgDefaultLook[] = L\"Enhanced\""
+    "GameConfigConstants.h must default the look preset to Enhanced")
 
 foreach(required_text IN ITEMS
         "m_look = ReadLookPreset(m_configPath);"
