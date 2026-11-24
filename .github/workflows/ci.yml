@@ -1283,7 +1283,7 @@ jobs:
           gh release edit "$RELEASE_TAG" --notes-file "$release_notes"
 
   publish-bless-client:
-    name: Publish Bless client 1.47.1
+    name: Publish Bless client 1.47.2
     # Fork-only: upstream's release flow never runs here, so this job hands the
     # Windows build on as a downloadable release asset instead.
     needs: [quality, build-windows]
@@ -1302,30 +1302,30 @@ jobs:
       - name: Build Bless client zip
         shell: bash
         run: |
-          mkdir -p bless-client-1.47.1
-          tar -xzf MuMain-windows-native-x64-release-editor-off-no-data.tar.gz -C bless-client-1.47.1
-          cp bless-client-1.47.1/config.ini.template bless-client-1.47.1/config.ini
-          printf 'v1.47.1' > bless-client-1.47.1/release-version.txt
-          test -f bless-client-1.47.1/Main.exe
-          test -f bless-client-1.47.1/MUnique.Client.Library.dll
-          test -d bless-client-1.47.1/shaders
-          test -f bless-client-1.47.1/config.ini
-          test -f bless-client-1.47.1/release-version.txt
-          (cd bless-client-1.47.1 && zip -r ../MuMain-client-v1.47.1.zip .)
-          sha256sum MuMain-client-v1.47.1.zip > MuMain-client-v1.47.1.zip.sha256
-          ls -la MuMain-client-v1.47.1.zip
+          mkdir -p bless-client-1.47.2
+          tar -xzf MuMain-windows-native-x64-release-editor-off-no-data.tar.gz -C bless-client-1.47.2
+          cp bless-client-1.47.2/config.ini.template bless-client-1.47.2/config.ini
+          printf 'v1.47.2' > bless-client-1.47.2/release-version.txt
+          test -f bless-client-1.47.2/Main.exe
+          test -f bless-client-1.47.2/MUnique.Client.Library.dll
+          test -d bless-client-1.47.2/shaders
+          test -f bless-client-1.47.2/config.ini
+          test -f bless-client-1.47.2/release-version.txt
+          (cd bless-client-1.47.2 && zip -r ../MuMain-client-v1.47.2.zip .)
+          sha256sum MuMain-client-v1.47.2.zip > MuMain-client-v1.47.2.zip.sha256
+          ls -la MuMain-client-v1.47.2.zip
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: bless-1.47.1
-          name: "MuMain 1.47.1 — Bless dynamic buff tooltips"
+          tag_name: bless-1.47.2
+          name: "MuMain 1.47.2 — Bless dynamic buff tooltips"
           body: |
-            MuMain 1.47.1 for MU Bless: buff tooltips (Guild 109, Set Bonus 110, VIP 111, Power 122)
+            MuMain 1.47.2 for MU Bless: buff tooltips (Guild 109, Set Bonus 110, VIP 111, Power 122)
             show live values sent by the server (packet C1 F3 09). Built from the
             bless-buff-tooltip branch. Runtime only: Data/ and fonts/ come from the
             Bless data pack via the launcher.
           prerelease: true
           files: |
-            MuMain-client-v1.47.1.zip
-            MuMain-client-v1.47.1.zip.sha256
+            MuMain-client-v1.47.2.zip
+            MuMain-client-v1.47.2.zip.sha256

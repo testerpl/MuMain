@@ -158,18 +158,26 @@ namespace CfgDefaults
     inline constexpr bool CfgDefaultVSync = true;
 
     // The look a missing or invalid [Render] Look stands for.
-    inline constexpr wchar_t CfgDefaultLook[] = L"Classic";
-    // 8x anisotropy on textures with mip levels.
-    inline constexpr int CfgDefaultAnisotropy = 8;
+    // Enhanced: the Enhanced sub-features (lighting, dynamic lights, sunlight,
+    // light mood, post-processing) already default to on below but stay inert
+    // under Classic, so a fresh install got none of them.
+    inline constexpr wchar_t CfgDefaultLook[] = L"Enhanced";
+    // 16x anisotropy on textures with mip levels: the most
+    // Render::Textures::MaxSupportedAnisotropy allows (TextureFiltering.h).
+    inline constexpr int CfgDefaultAnisotropy = 16;
 
     // The samples the Enhanced look renders with (Classic renders without); a
     // requested count is lowered to what the GPU supports.
     inline constexpr int CfgDefaultAntialiasing = 4;
-    // Off: the Enhanced look stays as it was until a player switches it on.
-    inline constexpr bool CfgDefaultEdgeSmoothing = false;
-    // The window's size and no sharpening: the Enhanced look as it was.
+    // On: FXAA beside the multisampling, the cheapest edge smoothing the
+    // Enhanced look offers (UI::Options offers it as a toggle).
+    inline constexpr bool CfgDefaultEdgeSmoothing = true;
+    // The window's size; mild RCAS sharpening (first rung of the options
+    // window's Sharpness ladder). It also sharpens at RenderScale 100: see
+    // Render::PostProcessing::PlanFinalPasses, sharpen is set whenever the
+    // sharpness is above 0, even when the scene is drawn at window size.
     inline constexpr int CfgDefaultRenderScale = 100;
-    inline constexpr int CfgDefaultSharpness = 0;
+    inline constexpr int CfgDefaultSharpness = 25;
     inline constexpr bool CfgDefaultEnhancedLighting = true;
     inline constexpr bool CfgDefaultDynamicLights = true;
     inline constexpr bool CfgDefaultSunlight = true;

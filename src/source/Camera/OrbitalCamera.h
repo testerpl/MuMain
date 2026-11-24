@@ -107,7 +107,12 @@ private:
     // DEFAULT matches that so orbital starts at exactly the Default cam's
     // position. MIN/MAX bracket how far the player can move from there.
     static constexpr float MIN_RADIUS = 600.0f;
-    static constexpr float MAX_RADIUS = 3000.0f;
+    // 4500: the far clip, terrain/object cull ranges and fog all scale with
+    // the radius already (OrbitalCamera::UpdateConfigForView scales farPlane
+    // by 1 + (radius/DEFAULT_RADIUS - 1) * 0.33 and fog stays at ViewFar *
+    // 1.00/1.25), so pulling further out keeps the world drawn instead of
+    // clipping it; at 4500 the far plane is ~5800 and terrain culling ~8100.
+    static constexpr float MAX_RADIUS = 4500.0f;
     static constexpr float DEFAULT_RADIUS = 1735.0f;
 
     // Input state (middle-mouse drag tracking)

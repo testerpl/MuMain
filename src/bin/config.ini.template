@@ -35,12 +35,12 @@ Zoom=1735
 ; Original S6 bodies when 1, improved bodies when 0. Restart required.
 UseS6PlayerModels=1
 VSync=1
-Look=Classic
-Anisotropy=8
+Look=Enhanced
+Anisotropy=16
 Antialiasing=4
-EdgeSmoothing=0
+EdgeSmoothing=1
 RenderScale=100
-Sharpness=0
+Sharpness=25
 EnhancedLighting=1
 DynamicLights=1
 LightMood=1
