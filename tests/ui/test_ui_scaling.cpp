@@ -775,9 +775,9 @@ TEST_CASE("every transform sizes native text by the one typography scale [ui][sc
     }
 }
 
-TEST_CASE("anisotropy defaults to 8x and reads its ini key [config][render][mipmap]")
+TEST_CASE("anisotropy defaults to 16x and reads its ini key [config][render][mipmap]")
 {
-    CHECK(CfgDefaults::CfgDefaultAnisotropy == 8);
+    CHECK(CfgDefaults::CfgDefaultAnisotropy == 16);
 
     // The key as config.ini spells it, read the way GameConfig::Load reads it.
     const std::filesystem::path file = std::filesystem::temp_directory_path() / "mu_anisotropy_test.ini";
@@ -792,7 +792,7 @@ TEST_CASE("anisotropy defaults to 8x and reads its ini key [config][render][mipm
         std::ofstream ini(file, std::ios::trunc);
         ini << "[Render]\nVSync=1\n";
     }
-    CHECK(readAnisotropy() == 8);
+    CHECK(readAnisotropy() == 16);
 
     {
         std::ofstream ini(file, std::ios::trunc);
@@ -820,7 +820,7 @@ TEST_CASE("anisotropy defaults to 8x and reads its ini key [config][render][mipm
 TEST_CASE("the look preset reads Classic or Enhanced and defaults to CfgDefaultLook [config][render][look]")
 {
     const LookPreset defaultLook = *GameConfigValidation::ParseLook(CfgDefaults::CfgDefaultLook);
-    CHECK(defaultLook == LookPreset::Classic);
+    CHECK(defaultLook == LookPreset::Enhanced);
     CHECK(GameConfigValidation::ParseLook(L"Enhanced") == LookPreset::Enhanced);
     CHECK(GameConfigValidation::ParseLook(L" enhanced ") == LookPreset::Enhanced);
     CHECK(GameConfigValidation::ParseLook(L"CLASSIC") == LookPreset::Classic);
